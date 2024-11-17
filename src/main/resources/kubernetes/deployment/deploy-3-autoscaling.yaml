@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persistence-deploy-autoscaling
+  labels:
+    app : persistence
+    env: prod
+    owner: booorisov
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      project: something-autoscaling
+  template:
+    metadata:
+      labels:
+        project: something-autoscaling
+    spec:
+      containers:
+        - name: persistence-autoscaling-container
+          image: booorisov/persistence:latest
+          ports:
+            - containerPort: 8082
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: persistence-deploy-autoscaling
+  minReplicas: 3
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80

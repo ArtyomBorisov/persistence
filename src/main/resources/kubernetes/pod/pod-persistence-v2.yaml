@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: persistence-pod
+  labels:
+    env  : prod
+    app  : main
+    tier : backend
+    owner: booorisov
+spec:
+  containers:
+    - name : persistence-container
+      image: booorisov/persistence:latest
+      ports:
+        - containerPort: 8080

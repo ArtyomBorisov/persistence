@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: persistence-pod
+spec:
+  containers:
+    - name : persistence-container
+      image: booorisov/persistence:latest
+      ports:
+        - containerPort: 8080

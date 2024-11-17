@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persistence-deployment
+  labels:
+    app: persistence
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      project: myLabel
+  template:
+    metadata:
+      labels:
+        project: myLabel # service looks for these PODs labels
+    spec:
+      containers:
+        - name: container-name
+          image: booorisov/persistence:latest
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-single-pod-service
+  labels:
+    env: prod
+    owner: booorisov
+spec:
+  selector:
+    project: myLabel # selecting PODs with these labels
+  ports:
+    - name: app-listener
+      protocol: TCP
+      port: 8080 # port on load balancer
+      targetPort: 8080 # port on POD
+  type: LoadBalancer

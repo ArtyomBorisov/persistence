@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persistence-deploy
+  labels:
+    app : persistence
+spec:
+  selector:
+    matchLabels:
+      project: something
+  template:
+    metadata:
+      labels:
+        project: something
+    spec:
+      containers:
+        - name: persistence-container
+          image: booorisov/persistence:latest
+          ports:
+            - containerPort: 8080

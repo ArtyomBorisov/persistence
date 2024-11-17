@@ -1,0 +1,14 @@
+apiVersion : v2
+name       : MyApp-HelmChart
+description: helm chart for kubernetes
+type       : application
+version    : 0.1.0 # the helm chart version
+appVersion : 1.0.0 version of the application being deployed
+
+keywords:
+  - persistence
+  - mybatis
+  - hibernate
+
+maintainers:
+  - name: Artyom

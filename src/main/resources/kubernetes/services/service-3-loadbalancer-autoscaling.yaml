@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persistence-deployment-3
+  labels:
+    app: persistence
+spec:
+  selector:
+    matchLabels:
+      project: myLabel
+  template:
+    metadata:
+      labels:
+        project: myLabel # service looks for these PODs labels
+    spec:
+      containers:
+        - name: persistence-container
+          image: booorisov/persistence:latest
+          ports:
+            - containerPort: 8080
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v2
+    kind: Deployment
+    name: my-web-deployment-autoscaling
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-autoscaling-pod-service
+  labels:
+    env: prod
+    owner: booorisov
+spec:
+  selector:
+    project: myLabel
+  ports:
+    - name: app-listener
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
