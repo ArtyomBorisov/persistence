@@ -38,3 +38,4 @@ out/
 .vscode/
 
 /jenkins-key
+/jenkins-key.pub
