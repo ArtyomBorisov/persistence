@@ -1,6 +1,6 @@
 package com.pdp.persistence.common;
 
-public enum ORM {
+public enum Framework {
     HIBERNATE,
     MYBATIS
 }

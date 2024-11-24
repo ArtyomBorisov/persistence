@@ -1,4 +1,10 @@
 package com.pdp.persistence.mybatis.model;
 
-public record Subscription() {
+import java.util.List;
+import java.util.UUID;
+
+public record Subscription(UUID id,
+                           List<Account> accounts,
+                           String title,
+                           String description) {
 }

@@ -1,9 +1,6 @@
 package com.pdp.persistence.hibernate.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -16,6 +13,11 @@ public class BalanceEntity {
 
     @Id
     private UUID id;
+
+    //@MapsId
+    //@OneToOne(mappedBy = "balance")
+    //@JoinColumn(name = "id")
+    //private AccountEntity account;
 
     @Column(nullable = false)
     private BigDecimal amount;

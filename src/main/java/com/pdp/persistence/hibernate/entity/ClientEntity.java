@@ -1,9 +1,12 @@
 package com.pdp.persistence.hibernate.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
+import org.hibernate.annotations.UuidGenerator;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -12,10 +15,11 @@ import java.util.UUID;
 public class ClientEntity {
 
     @Id
+    @UuidGenerator
     private UUID id;
 
-    @OneToMany
-    private List<AccountEntity> accounts;
+    //@OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    //private List<AccountEntity> accounts;
 
     @Column(nullable = false)
     private String identificationNumber;

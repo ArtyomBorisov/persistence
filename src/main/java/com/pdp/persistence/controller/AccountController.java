@@ -1,6 +1,6 @@
 package com.pdp.persistence.controller;
 
-import com.pdp.persistence.common.ORM;
+import com.pdp.persistence.common.Framework;
 import com.pdp.persistence.hibernate.repository.AccountRepository;
 import com.pdp.persistence.mybatis.mapper.AccountDataMapper;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -27,12 +28,12 @@ public class AccountController {
     }
 
     @GetMapping
-    public String getAll(@RequestParam ORM orm) {
-        List<?> accounts = switch (orm) {
+    public List<?> getAll(@RequestParam Framework framework) {
+        List<?> accounts = switch (framework) {
             case HIBERNATE -> accountRepository.findAll();
-            case MYBATIS -> accountDataMapper.findAll();
+            case MYBATIS -> Collections.emptyList();
         };
-        log.info("{}", accounts.size());
-        return String.valueOf(accounts.size());
+        log.info("size: {}", accounts.size());
+        return accounts;
     }
 }

@@ -1,10 +1,12 @@
 package com.pdp.persistence.hibernate.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pdp.persistence.common.AccountType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,18 +18,24 @@ public class AccountEntity {
     @UuidGenerator
     private UUID id;
 
-    @Column(nullable = false)
-    private UUID clientId;
-
     @OneToOne
+    @PrimaryKeyJoinColumn
     private BalanceEntity balance;
 
     @ManyToOne
-    private ClientInfoEntity clientInfo;
+    @JoinColumn(name="client_id", nullable=false)
+    private ClientEntity client;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "account_subscription",
+            joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "subscription_id"))
+    private List<SubscriptionEntity> subscriptions;
 
     @Column(nullable = false)
     private String number;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private AccountType accountType;
 }
