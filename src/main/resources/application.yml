@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: persistence
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres #${DATABASE_URL}
+    username: admin #${DATABASE_USERNAME}
+    password: admin #${DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: ${db.schema}
+    open-in-view: false
+  liquibase:
+    enabled: true
+    change-log: db/changelog/changelog.yml
+    default-schema: ${db.schema}
+db:
+  schema: persistence_app
+logging:
+  level:
+    root: info
+    com.pdp.persistence: debug
