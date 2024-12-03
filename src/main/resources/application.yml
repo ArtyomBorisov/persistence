@@ -20,6 +20,7 @@ spring:
     default-schema: ${db.schema}
 mybatis:
   type-handlers-package: com.pdp.persistence.dao.mybatis.handler
+  mapper-locations: classpath:db/mapping/*-mapper.xml
 db:
   schema: persistence_app
 logging:

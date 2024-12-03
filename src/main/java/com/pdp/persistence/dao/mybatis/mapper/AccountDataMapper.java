@@ -22,11 +22,9 @@ public interface AccountDataMapper {
             @Result(property = "id", column = "ID", id = true),
             @Result(property = "number", column = "NUMBER"),
             @Result(property = "accountType", column = "TYPE"),
-            @Result(property = "balance", column = "ID",
-                    one = @One(select = "com.pdp.persistence.dao.mybatis.mapper.BalanceDataMapper.findById")),
-            @Result(property = "client", column = "CLIENT_ID",
-                    one = @One(select = "com.pdp.persistence.dao.mybatis.mapper.ClientDataMapper.findById"))
-            // subscriptions смаппить нельзя, association через аннотации не поддерживается
+            @Result(property = "balance", column = "ID", one = @One(select = JoinMapping.FIND_BALANCE_BY_ID)),
+            @Result(property = "client", column = "CLIENT_ID", one = @One(select = JoinMapping.FIND_CLIENT_BY_ID)),
+            @Result(property = "subscriptions", column = "ID", many = @Many(select = JoinMapping.FIND_SUBSCRIPTIONS_BY_ACCOUNT_ID))
     })
     Optional<AccountModel> findById(@Param("id") UUID id);
 
@@ -41,11 +39,9 @@ public interface AccountDataMapper {
             @Result(property = "id", column = "ID", id = true),
             @Result(property = "number", column = "NUMBER"),
             @Result(property = "accountType", column = "TYPE"),
-            @Result(property = "balance", column = "ID",
-                    one = @One(select = "com.pdp.persistence.dao.mybatis.mapper.BalanceDataMapper.findById")),
-            @Result(property = "client", column = "CLIENT_ID",
-                    one = @One(select = "com.pdp.persistence.dao.mybatis.mapper.ClientDataMapper.findById"))
-            // subscriptions смаппить нельзя, association через аннотации не поддерживается
+            @Result(property = "balance", column = "ID", one = @One(select = JoinMapping.FIND_BALANCE_BY_ID)),
+            @Result(property = "client", column = "CLIENT_ID", one = @One(select = JoinMapping.FIND_CLIENT_BY_ID)),
+            @Result(property = "subscriptions", column = "ID", many = @Many(select = JoinMapping.FIND_SUBSCRIPTIONS_BY_ACCOUNT_ID))
     })
     List<AccountModel> findAll();
 }

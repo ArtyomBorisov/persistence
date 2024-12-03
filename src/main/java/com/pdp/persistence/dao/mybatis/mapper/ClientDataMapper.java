@@ -10,21 +10,31 @@ import java.util.UUID;
 @Mapper
 public interface ClientDataMapper {
 
-    //todo add
     @Select("""
             SELECT ID,
-                   IDENTIFICATION_NUMBER
-            FROM CLIENT;
-            """)
-    @Results
-    Optional<ClientModel> findById(@Param("id") UUID id);
-
-    @Select("""
-            SELECT ID,
+                   CLIENT_INFO_ID,
                    IDENTIFICATION_NUMBER
             FROM CLIENT
             WHERE ID = #{id};
             """)
+    @Results(value = {
+            @Result(property = "id", column = "ID", id = true),
+            @Result(property = "identificationNumber", column = "IDENTIFICATION_NUMBER"),
+            @Result(property = "clientInfo", column = "CLIENT_INFO_ID", one = @One(select = JoinMapping.FIND_CLIENT_INFO_BY_ID))
+    })
+    Optional<ClientModel> findById(@Param("id") UUID id);
+
+    @Select("""
+            SELECT ID,
+                   CLIENT_INFO_ID,
+                   IDENTIFICATION_NUMBER
+            FROM CLIENT;
+            """)
+    @Results(value = {
+            @Result(property = "id", column = "ID", id = true),
+            @Result(property = "identificationNumber", column = "IDENTIFICATION_NUMBER"),
+            @Result(property = "clientInfo", column = "CLIENT_INFO_ID", one = @One(select = JoinMapping.FIND_CLIENT_INFO_BY_ID))
+    })
     List<ClientModel> findAll();
 
     @Insert("""

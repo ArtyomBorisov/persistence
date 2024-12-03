@@ -8,7 +8,7 @@ VALUES ('b285fde5-64f7-444a-aa41-267bbfe9442b', 'SMS-оповещение', null
        ('1cea0597-9e85-41a1-9e4a-8483060943b7', 'Ежемесячная выписка', 'Ежемесячная расшифровка списаний и начислений'),
        ('0414a80b-5ff1-4ac8-a875-9722bdd0a865', 'Копилка', 'Возможность накопления');
 
-INSERT INTO ACCOUNT_SUBSCRIPTION (ACCOUNT_ID, SUBSCRIPTION_ID)
+INSERT INTO ACCOUNT_SUBSCRIPTION_LINK (ACCOUNT_ID, SUBSCRIPTION_ID)
 VALUES ('d3b8f2e4-7c5e-4b7c-bc1b-8c9c8f1e1f4a', 'b285fde5-64f7-444a-aa41-267bbfe9442b'),
        ('d3b8f2e4-7c5e-4b7c-bc1b-8c9c8f1e1f4a', '36d84860-a6ce-4996-805a-83b5e5f503ba'),
        ('d3b8f2e4-7c5e-4b7c-bc1b-8c9c8f1e1f4a', 'faf5d4c0-1599-44fb-a5db-1a694e6a60d8'),

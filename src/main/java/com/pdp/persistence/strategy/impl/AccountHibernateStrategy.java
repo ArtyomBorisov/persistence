@@ -37,6 +37,12 @@ public class AccountHibernateStrategy implements AccountStrategy {
         return accountMapper.mapAccountEntitiesToDtos(accountRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<AccountDto> findAllEffectively() {
+        return null;
+    }
+
     @Override
     public Framework getFramework() {
         return Framework.HIBERNATE;

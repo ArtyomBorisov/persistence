@@ -11,4 +11,6 @@ public interface AccountService {
     AccountDto findById(UUID id, Framework framework);
 
     List<AccountDto> findAll(Framework framework);
+
+    List<AccountDto> findAllEffectively(Framework framework);
 }

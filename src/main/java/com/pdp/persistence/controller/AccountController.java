@@ -35,4 +35,10 @@ public class AccountController {
         log.info("Получение всех счетов");
         return accountService.findAll(framework);
     }
+
+    @GetMapping("/effectively")
+    public List<AccountDto> getAllAccountsEffectively(@RequestParam(name = "framework") Framework framework) {
+        log.info("Получение всех счетов \"эффективно\"");
+        return accountService.findAllEffectively(framework);
+    }
 }

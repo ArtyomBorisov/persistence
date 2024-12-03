@@ -26,7 +26,7 @@ public class AccountEntity {
     private ClientEntity client;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "account_subscription",
+    @JoinTable(name = "account_subscription_link",
             joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "subscription_id"))
     private List<SubscriptionEntity> subscriptions;

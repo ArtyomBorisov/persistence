@@ -32,6 +32,12 @@ public class AccountServiceImpl implements AccountService {
         return accountStrategy.findAll();
     }
 
+    @Override
+    public List<AccountDto> findAllEffectively(Framework framework) {
+        final var accountStrategy = getAccountStrategy(framework);
+        return accountStrategy.findAllEffectively();
+    }
+
     private AccountStrategy getAccountStrategy(Framework framework) {
         return Optional.ofNullable(accountStrategies.get(framework))
                 .orElseThrow(() -> {

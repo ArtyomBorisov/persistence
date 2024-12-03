@@ -12,5 +12,7 @@ public interface AccountStrategy {
 
     List<AccountDto> findAll();
 
+    List<AccountDto> findAllEffectively();
+
     Framework getFramework();
 }

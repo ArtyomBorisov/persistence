@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper
+@Mapper(uses = ClientInfoMapper.class)
 public interface ClientMapper {
 
     ClientEntity mapClientDtoToEntity(ClientDto clientDto);
