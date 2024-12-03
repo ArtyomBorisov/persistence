@@ -49,8 +49,7 @@ public class ClientInfoMybatisStrategy implements ClientInfoStrategy {
     @Transactional
     @Override
     public void save(ClientInfoDto clientInfo) {
-        final var clientInfoModel = clientInfoMapper.mapClientInfoDtoToModel(clientInfo);
-        clientInfoDataMapper.save(clientInfoModel);
+        clientInfoDataMapper.save(clientInfoMapper.mapClientInfoDtoToModel(clientInfo));
     }
 
     @Override

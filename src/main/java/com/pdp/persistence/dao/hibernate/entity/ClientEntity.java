@@ -2,6 +2,7 @@ package com.pdp.persistence.dao.hibernate.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
@@ -15,10 +16,12 @@ public class ClientEntity {
     @UuidGenerator
     private UUID id;
 
+    @Setter
     @OneToOne
     @JoinColumn(name = "client_info_id")
     private ClientInfoEntity clientInfo;
 
+    @Setter
     @Column(nullable = false)
     private String identificationNumber;
 }

@@ -2,6 +2,7 @@ package com.pdp.persistence.strategy.impl;
 
 import com.pdp.persistence.common.Framework;
 import com.pdp.persistence.dao.mybatis.mapper.ClientDataMapper;
+import com.pdp.persistence.dao.mybatis.model.ClientModel;
 import com.pdp.persistence.dto.ClientDto;
 import com.pdp.persistence.exception.MessageConstant;
 import com.pdp.persistence.exception.NotFound;
@@ -26,7 +27,7 @@ public class ClientMybatisStrategy implements ClientStrategy {
 
     @Transactional(readOnly = true)
     @Override
-    public ClientDto findClientById(UUID id) {
+    public ClientDto findById(UUID id) {
         final var clientModel = clientDataMapper.findById(id)
                 .orElseThrow(() -> buildException(String.format(MessageConstant.CLIENT_NOT_FOUND, id)));
         return clientMapper.mapClientModelToDto(clientModel);
@@ -42,7 +43,22 @@ public class ClientMybatisStrategy implements ClientStrategy {
     @Override
     public void save(ClientDto clientDto) {
         clientInfoMybatisStrategy.save(clientDto.clientInfo());
-        clientDataMapper.save(clientMapper.mapClientDtoToModel(clientDto));
+        final var clientModel = clientMapper.mapClientDtoToModel(clientDto);
+        clientDataMapper.save(clientModel, clientDto.clientInfo().id());
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(UUID id) {
+        clientDataMapper.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public ClientDto update(ClientDto clientDto) {
+        final var clientModel = clientMapper.mapClientDtoToModel(clientDto);
+        final var updatedClientModel = clientDataMapper.update(clientModel);
+        return clientMapper.mapClientModelToDto(updatedClientModel);
     }
 
     @Override

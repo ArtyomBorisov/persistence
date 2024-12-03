@@ -8,11 +8,15 @@ import java.util.UUID;
 
 public interface ClientStrategy {
 
-    ClientDto findClientById(UUID id);
+    ClientDto findById(UUID id);
 
     List<ClientDto> findAll();
 
     void save(ClientDto clientDto);
+
+    void deleteById(UUID id);
+
+    ClientDto update(ClientDto clientDto);
 
     Framework getFramework();
 }

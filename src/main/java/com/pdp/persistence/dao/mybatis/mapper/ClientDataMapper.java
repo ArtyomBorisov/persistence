@@ -28,8 +28,22 @@ public interface ClientDataMapper {
     List<ClientModel> findAll();
 
     @Insert("""
-            INSERT INTO CLIENT (ID, IDENTIFICATION_NUMBER)
-            VALUES (#{clientModel.id}, #{clientModel.identificationNumber});
+            INSERT INTO CLIENT (ID, CLIENT_INFO_ID, IDENTIFICATION_NUMBER)
+            VALUES (#{clientModel.id}, #{clientInfoId}, #{clientModel.identificationNumber});
             """)
-    void save(ClientModel clientModel);
+    void save(ClientModel clientModel, UUID clientInfoId);
+
+    @Delete("""
+            DELETE FROM CLIENT
+            WHERE ID = #{id};
+            """)
+    boolean deleteById(UUID id);
+
+    @Select("""
+            UPDATE CLIENT
+            SET CLIENT_INFO_ID, IDENTIFICATION_NUMBER
+            RETURNING ID, CLIENT_INFO_ID, IDENTIFICATION_NUMBER;
+            """)
+    @Options(flushCache = Options.FlushCachePolicy.TRUE)
+    ClientModel update(ClientModel clientModel);
 }

@@ -25,7 +25,7 @@ public class ClientHibernateStrategy implements ClientStrategy {
 
     @Transactional(readOnly = true)
     @Override
-    public ClientDto findClientById(UUID id) {
+    public ClientDto findById(UUID id) {
         final var clientEntity = clientRepository.findById(id)
                 .orElseThrow(() -> buildException(String.format(MessageConstant.CLIENT_NOT_FOUND, id)));
         return clientMapper.mapClientEntityToDto(clientEntity);
@@ -42,6 +42,24 @@ public class ClientHibernateStrategy implements ClientStrategy {
     @Override
     public void save(ClientDto clientDto) {
         clientRepository.save(clientMapper.mapClientDtoToEntity(clientDto));
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(UUID id) {
+        clientRepository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public ClientDto update(ClientDto clientDto) {
+        final var id = clientDto.id();
+        final var clientEntity = clientRepository.findById(id)
+                .orElseThrow(() -> buildException(String.format(MessageConstant.CLIENT_NOT_FOUND, id)));
+        clientEntity.setIdentificationNumber(clientDto.identificationNumber());
+        // clientEntity.setClientInfo();
+        final var updatedClientEntity = clientRepository.save(clientEntity);
+        return clientMapper.mapClientEntityToDto(updatedClientEntity);
     }
 
     @Override
