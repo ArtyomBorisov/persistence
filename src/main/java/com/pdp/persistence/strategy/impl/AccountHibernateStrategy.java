@@ -40,7 +40,7 @@ public class AccountHibernateStrategy implements AccountStrategy {
     @Transactional(readOnly = true)
     @Override
     public List<AccountDto> findAllEffectively() {
-        return null;
+        return accountMapper.mapAccountEntitiesToDtos(accountRepository.findAll());
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.pdp.persistence.strategy.impl;
 
 import com.pdp.persistence.common.Framework;
-import com.pdp.persistence.dao.mybatis.mapper.AccountDataEffectiveMapper;
 import com.pdp.persistence.dao.mybatis.mapper.AccountDataMapper;
 import com.pdp.persistence.dto.AccountDto;
 import com.pdp.persistence.exception.MessageConstant;
@@ -22,7 +21,6 @@ import java.util.UUID;
 public class AccountMybatisStrategy implements AccountStrategy {
 
     private final AccountDataMapper accountDataMapper;
-    private final AccountDataEffectiveMapper accountDataEffectiveMapper;
     private final AccountMapper accountMapper;
 
     @Transactional(readOnly = true)
@@ -42,7 +40,7 @@ public class AccountMybatisStrategy implements AccountStrategy {
     @Transactional(readOnly = true)
     @Override
     public List<AccountDto> findAllEffectively() {
-        return accountMapper.mapAccountModelsToDtos(accountDataEffectiveMapper.findAllEffectively());
+        return accountMapper.mapAccountModelsToDtos(accountDataMapper.findAllEffectively());
     }
 
     @Override
