@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-replicas-deployment
+  labels:
+    app: postgres-replicas-application
+    env: dev
+    owner: artyom
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      project: postgres_replicas_label
+  template:
+    metadata:
+      labels:
+        project: postgres_replicas_label
+    spec:
+      containers:
+        - name: postgres-container
+          image: postgres
+          ports:
+            - containerPort: 5454
+          env:
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_DB
+              value: database

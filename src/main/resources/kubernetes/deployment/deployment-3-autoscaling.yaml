@@ -1,37 +1,44 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: persistence-deploy-autoscaling
+  name: postgres-autoscaling-deployment
   labels:
-    app : persistence
-    env: prod
-    owner: booorisov
+    app: postgres-autoscaling-application
+    env: dev
+    owner: artyom
 spec:
   replicas: 2
   selector:
     matchLabels:
-      project: something-autoscaling
+      project: postgres_autoscaling_label
   template:
     metadata:
       labels:
-        project: something-autoscaling
+        project: postgres_autoscaling_label
     spec:
       containers:
-        - name: persistence-autoscaling-container
-          image: booorisov/persistence:latest
+        - name: postgres-container
+          image: postgres
           ports:
-            - containerPort: 8082
+            - containerPort: 5454
+          env:
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_DB
+              value: database
 
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: my-autoscaling
+  name: postgres-autoscaler
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: persistence-deploy-autoscaling
+    name: postgres-autoscaling-deployment
   minReplicas: 3
   maxReplicas: 5
   metrics:
