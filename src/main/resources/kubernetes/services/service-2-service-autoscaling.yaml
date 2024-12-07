@@ -1,33 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: persistence-deployment-3
+  name: pgadmin-deployment-2
   labels:
-    app: persistence
+    app: pgadmin-application-2
 spec:
   selector:
     matchLabels:
-      project: myLabel
+      project: myLabel2
   template:
     metadata:
       labels:
-        project: myLabel # service looks for these PODs labels
+        project: myLabel2
     spec:
       containers:
-        - name: persistence-container
-          image: booorisov/persistence:latest
+        - name: pgadmin-container
+          image: dpage/pgadmin4
           ports:
-            - containerPort: 8080
+            - containerPort: 5050
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: admin@admin.com
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: admin
+
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: my-autoscaling
+  name: postgres-autoscaling-deployment
 spec:
   scaleTargetRef:
     apiVersion: apps/v2
     kind: Deployment
-    name: my-web-deployment-autoscaling
+    name: pgadmin-deployment-2
   minReplicas: 2
   maxReplicas: 6
   metrics:
@@ -48,16 +54,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-autoscaling-pod-service
+  name: my-autoscaler-service
   labels:
-    env: prod
-    owner: booorisov
+    env: dev
+    owner: artyom
 spec:
+  type: LoadBalancer
   selector:
-    project: myLabel
+    project: myLabel2
   ports:
     - name: app-listener
       protocol: TCP
-      port: 8080
-      targetPort: 8080
-  type: LoadBalancer
+      port: 5050
+      targetPort: 5050

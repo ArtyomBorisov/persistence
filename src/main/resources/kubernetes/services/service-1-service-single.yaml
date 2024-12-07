@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: persistence-deployment
+  name: pgadmin-deployment
   labels:
-    app: persistence
+    app: pgadmin-application
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       project: myLabel
@@ -15,10 +15,15 @@ spec:
         project: myLabel # service looks for these PODs labels
     spec:
       containers:
-        - name: container-name
-          image: booorisov/persistence:latest
+        - name: pgadmin-container
+          image: dpage/pgadmin4
           ports:
-            - containerPort: 8080
+            - containerPort: 5050
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: admin@admin.com
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: admin
 
 ---
 apiVersion: v1
@@ -26,14 +31,14 @@ kind: Service
 metadata:
   name: my-single-pod-service
   labels:
-    env: prod
-    owner: booorisov
+    env: dev
+    owner: artyom
 spec:
+  type: NodePort
   selector:
     project: myLabel # selecting PODs with these labels
   ports:
     - name: app-listener
       protocol: TCP
-      port: 8080 # port on load balancer
-      targetPort: 8080 # port on POD
-  type: LoadBalancer
+      port: 5050
+      targetPort: 5050
