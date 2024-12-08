@@ -1,0 +1,28 @@
+# default values for helm chart
+
+image:
+  persistence: booorisov/persistence:latest
+  postgres: postgres
+  pgadmin: dpage/pgadmin4
+
+port:
+  persistence: 8080
+  postgres: 5433
+  pgadmin: 5454
+
+replicaCount:
+  persistence: 2
+  postgres: 1
+  pgAdmin: 1
+
+environment:
+  PGADMIN_DEFAULT_EMAIL: admin@admin.com
+  PGADMIN_DEFAULT_PASSWORD: admin
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+  POSTGRES_DB: persistence
+  APP_LOG_LEVEL: debug
+  DATABASE_URL: jdbc:postgresql://localhost:5432/persistence
+  DATABASE_USERNAME: admin
+  DATABASE_PASSWORD: admin
+  DATABASE_SCHEMA: persistence_schema

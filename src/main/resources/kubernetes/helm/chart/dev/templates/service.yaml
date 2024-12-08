@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: persistence-service-{{ .Release.Name }}
+  labels:
+    env: dev
+    owner: artyom
+spec:
+  selector:
+    project: persistence-{{ .Release.Name }}
+  ports:
+    - name: persistence-listener-{{ .Release.Name }}
+      protocol: TCP
+      port: {{ .Values.port.persistence }}
+      targetPort: {{ .Values.port.persistence }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin-service-{{ .Release.Name }}
+  labels:
+    env: dev
+    owner: artyom
+spec:
+  selector:
+    project: pgadmin-{{ .Release.Name }}
+  ports:
+    - name: pgadmin-listener-{{ .Release.Name }}
+      protocol: TCP
+      port: {{ .Values.port.pgadmin }}
+      targetPort: {{ .Values.port.pgadmin }}

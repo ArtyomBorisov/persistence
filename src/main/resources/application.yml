@@ -22,8 +22,8 @@ mybatis:
   type-handlers-package: com.pdp.persistence.dao.mybatis.handler
   mapper-locations: classpath:db/mapping/*-mapper.xml
 db:
-  schema: persistence_app
+  schema: ${DATABASE_SCHEMA}
 logging:
   level:
     root: info
-    com.pdp.persistence: debug
+    com.pdp.persistence: ${APP_LOG_LEVEL}

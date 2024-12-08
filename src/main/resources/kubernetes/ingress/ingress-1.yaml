@@ -5,33 +5,13 @@ metadata:
 
 spec:
   rules:
-    - host: www.my-site-1.com
+    - host: www.persistence-pdp.com
       http:
         paths:
         - pathType: Prefix
-          path: "/v1/persistence"
+          path: "/login"
           backend:
             service:
-              name: main
+              name: my-single-pod-service
               port:
-                number: 8080
-    - host: www.my-site-2.com
-      http:
-        paths:
-        - pathType: Prefix
-          path: "/v1/persistence"
-          backend:
-            service:
-              name: web1
-              port:
-                number: 8080
-    - host: www.my-site-3.com
-      http:
-        paths:
-        - pathType: Prefix
-          path: "/v1/persistence"
-          backend:
-            service:
-              name: web2
-              port:
-                number: 8080
+                number: 5050

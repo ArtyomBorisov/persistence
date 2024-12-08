@@ -1,6 +1,0 @@
-# default values for helm chart
-
-container:
-  image: booorisov/persistence:latest
-
-replicaCount: 2

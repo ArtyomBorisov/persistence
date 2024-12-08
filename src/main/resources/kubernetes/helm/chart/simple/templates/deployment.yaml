@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+  labels:
+    app: {{ .Release.Name }}-deployment
+spec:
+  replicas: {{ .Values.applicationReplicaCount }}
+  selector:
+    matchLabels:
+      project: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        project: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-name
+          image: {{ .Values.images.pgAdmin }}
+          ports:
+            - containerPort: 5454
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: {{ .Values.environments.PGADMIN_DEFAULT_EMAIL }}
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: {{ .Values.environments.PGADMIN_DEFAULT_PASSWORD }}

@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persistence-deployment-{{ .Release.Name }}
+  labels:
+    app: persistence-deployment-{{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount.persistence }}
+  selector:
+    matchLabels:
+      project: persistence-{{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        project: persistence-{{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-persistence-container
+          image: {{ .Values.image.persistence }}
+          ports:
+            - containerPort: {{ .Values.port.persistence }}
+          env:
+            - name: APP_LOG_LEVEL
+              value: {{ .Values.environment.APP_LOG_LEVEL }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment-{{ .Release.Name }}
+  labels:
+    app: postgres-deployment-{{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount.postgres }}
+  selector:
+    matchLabels:
+      project: postgres-{{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        project: postgres-{{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-container
+          image: {{ .Values.image.postgres }}
+          ports:
+            - containerPort: {{ .Values.port.postgres }}
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.environment.POSTGRES_USER }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.environment.POSTGRES_PASSWORD }}
+            - name: POSTGRES_DB
+              value: {{ .Values.environment.POSTGRES_DB }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin-deployment-{{ .Release.Name }}
+  labels:
+    app: pgadmin-deployment-{{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      project: pgadmin-{{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        project: pgadmin-{{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-container
+          image: {{ .Values.image.pgadmin }}
+          ports:
+            - containerPort: {{ .Values.port.pgadmin }}
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: {{ .Values.environment.PGADMIN_DEFAULT_EMAIL }}
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: {{ .Values.environment.PGADMIN_DEFAULT_PASSWORD }}

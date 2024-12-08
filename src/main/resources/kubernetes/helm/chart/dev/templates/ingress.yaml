@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-hosts
+
+spec:
+  rules:
+    - host: www.persistence.local
+      http:
+        paths:
+        - pathType: Prefix
+          path: /v1/persistence
+          backend:
+            service:
+              name: persistence-service-{{ .Release.Name }}
+              port:
+                number: {{ .Values.port.persistence }}
+    - host: www.pgadmin.local
+      http:
+        paths:
+          - pathType: Prefix
+            path: /login
+            backend:
+              service:
+                name: pgadmin-service-{{ .Release.Name }}
+                port:
+                  number: {{ .Values.port.pgadmin }}

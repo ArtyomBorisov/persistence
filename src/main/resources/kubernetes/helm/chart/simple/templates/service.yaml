@@ -3,14 +3,14 @@ kind: Service
 metadata:
   name: {{ .Release.Name }}-service
   labels:
-    env: prod
-    owner: booorisov
+    env: dev
+    owner: artyom
 spec:
+  type: LoadBalancer
   selector:
     project: {{ .Release.Name }}
   ports:
     - name: {{ .Release.Name }}-listener
       protocol: TCP
-      port: 8080
-      targetPort: 8080
-  type: LoadBalancer
+      port: 5454
+      targetPort: 5454

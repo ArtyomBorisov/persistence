@@ -23,8 +23,8 @@
 - PV
 - SVC
 
-kubectl apply -f "file_name".yaml
-kubectl delete -f "file_name".yaml
+kubectl apply -f <file_name>.yaml
+kubectl delete -f <file_name>.yaml
 kubectl get pods
 kubectl get nodes
 kubectl get nodes
@@ -32,6 +32,13 @@ kubectl get deploy
 kubectl get hpa
 kubectl get rs
 kubectl get svc (services)
-kubectl describe pods "pod_name"
-kubectl logs "pod_name"
-kubectl port-forward "pod_name" 8082:8080
+kubectl describe pods <pod_name>
+kubectl logs <pod_name>
+kubectl port-forward <pod_name> 8082:8080
+
+helm install <helmChartName> <folder>
+helm install <helmChartName> <folder> -f dev_values.yaml
+helm install <helmChartName> <folder> -set applicationReplicaCount=4
+helm install --dry-run --debug <name> <chart-folder>
+helm list
+helm status <name>
