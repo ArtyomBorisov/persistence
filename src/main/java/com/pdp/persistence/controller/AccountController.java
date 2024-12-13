@@ -25,20 +25,20 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public AccountDto getAccountById(@PathVariable(name = "id") UUID id, @RequestParam(name = "framework") Framework framework) {
+    public AccountDto getAccountById(@PathVariable(name = "id") UUID id, @RequestParam Framework framework) {
         log.info("Получение счета по id {}", id);
         return accountService.findById(id, framework);
     }
 
     @GetMapping
-    public List<AccountDto> getAllAccounts(@RequestParam(name = "framework") Framework framework) {
+    public List<AccountDto> getAllAccounts(@RequestParam Framework framework) {
         log.info("Получение всех счетов");
         return accountService.findAll(framework);
     }
 
     @GetMapping("/effectively")
-    public List<AccountDto> getAllAccountsEffectively(@RequestParam(name = "framework") Framework framework) {
-        log.info("Получение всех счетов \"эффективно\"");
+    public List<AccountDto> getAllAccountsEffectively(@RequestParam Framework framework) {
+        log.info("Получение всех счетов оптимально");
         return accountService.findAllEffectively(framework);
     }
 }

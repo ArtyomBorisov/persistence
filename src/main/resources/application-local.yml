@@ -1,4 +1,15 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/persistence
-port: 8090
+    username: admin
+    password: admin
+
+db:
+  schema: persistence_schema
+
+server:
+  port: 8090
+
+logging:
+  level:
+    com.pdp.persistence: debug
