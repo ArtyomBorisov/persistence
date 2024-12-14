@@ -18,6 +18,23 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: postgres-service-{{ .Release.Name }}
+  labels:
+    env: dev
+    owner: artyom
+spec:
+  selector:
+    project: postgres-{{ .Release.Name }}
+  ports:
+    - name: postgres-listener-{{ .Release.Name }}
+      protocol: TCP
+      port: {{ .Values.port.postgres }}
+      targetPort: {{ .Values.port.postgres }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: pgadmin-service-{{ .Release.Name }}
   labels:
     env: dev

@@ -7,7 +7,7 @@ image:
 
 port:
   persistence: 8080
-  postgres: 5433
+  postgres: 5432
   pgadmin: 5454
 
 replicaCount:
@@ -22,7 +22,7 @@ environment:
   POSTGRES_PASSWORD: admin
   POSTGRES_DB: persistence
   APP_LOG_LEVEL: debug
-  DATABASE_URL: jdbc:postgresql://localhost:5432/persistence
+  DATABASE_URL: jdbc:postgresql://{{ .Release.Name }}-container:5432/persistence
   DATABASE_USERNAME: admin
   DATABASE_PASSWORD: admin
   DATABASE_SCHEMA: persistence_schema

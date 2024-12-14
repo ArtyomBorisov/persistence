@@ -14,6 +14,7 @@ spec:
       labels:
         project: persistence-{{ .Release.Name }}
     spec:
+      serviceAccountName: {{ .Release.Name }}-service-account
       containers:
         - name: {{ .Release.Name }}-persistence-container
           image: {{ .Values.image.persistence }}
@@ -22,6 +23,15 @@ spec:
           env:
             - name: APP_LOG_LEVEL
               value: {{ .Values.environment.APP_LOG_LEVEL }}
+            - name: DATABASE_URL
+#              value: jdbc:postgresql://postgres-service-{{ .Release.Name }}:{{ .Values.port.postgres }}/{{ .Values.environment.DATABASE_SCHEMA }}
+              value: jdbc:postgresql://postgres-service-{{ .Release.Name }}.default.svc.cluster.local/{{ .Values.environment.POSTGRES_DB }}
+            - name: DATABASE_USERNAME
+              value: {{ .Values.environment.DATABASE_USERNAME }}
+            - name: DATABASE_PASSWORD
+              value: {{ .Values.environment.DATABASE_PASSWORD }}
+            - name: DATABASE_SCHEMA
+              value: {{ .Values.environment.DATABASE_SCHEMA }}
 
 ---
 apiVersion: apps/v1
@@ -40,8 +50,9 @@ spec:
       labels:
         project: postgres-{{ .Release.Name }}
     spec:
+      serviceAccountName: {{ .Release.Name }}-service-account
       containers:
-        - name: {{ .Release.Name }}-container
+        - name: {{ .Release.Name }}-postgres-container
           image: {{ .Values.image.postgres }}
           ports:
             - containerPort: {{ .Values.port.postgres }}
@@ -69,8 +80,9 @@ spec:
       labels:
         project: pgadmin-{{ .Release.Name }}
     spec:
+      serviceAccountName: {{ .Release.Name }}-service-account
       containers:
-        - name: {{ .Release.Name }}-container
+        - name: {{ .Release.Name }}-pgadmin-container
           image: {{ .Values.image.pgadmin }}
           ports:
             - containerPort: {{ .Values.port.pgadmin }}
