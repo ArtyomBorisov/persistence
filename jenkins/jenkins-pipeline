@@ -1,0 +1,43 @@
+pipeline {
+    agent any 
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Проверка кода из репозитория
+                git url: 'https://github.com/ArtyomBorisov/persistence.git', branch: 'main'
+            }
+        }
+        stage('Build') {
+            steps {
+                // добавление права на выполнение для файла gradlew
+                sh 'chmod +x gradlew'
+                // Выполнение команд в shell
+                sh './gradlew clean build -x test'
+            }
+        }
+        stage('Test') {
+            steps {
+                // Выполнение тестов
+                sh './gradlew test'
+            }
+        }
+        stage('docker image') {
+            steps {
+                sh 'docker version'
+            }
+        }
+        stage('kubernetes') {
+            steps {
+                sh 'kubectl get pods'
+            }
+        }
+    }
+    post {
+        always {
+            // Действия, которые выполняются всегда после завершения сборки
+            echo 'Сборка завершена!'
+        }
+    }
+}
+
