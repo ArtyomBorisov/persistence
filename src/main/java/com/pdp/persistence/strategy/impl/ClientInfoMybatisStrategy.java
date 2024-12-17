@@ -3,6 +3,7 @@ package com.pdp.persistence.strategy.impl;
 import com.pdp.persistence.common.Framework;
 import com.pdp.persistence.common.Sorting;
 import com.pdp.persistence.dao.mybatis.mapper.ClientInfoDataMapper;
+import com.pdp.persistence.dao.mybatis.model.ClientInfoModel;
 import com.pdp.persistence.dto.ClientInfoDto;
 import com.pdp.persistence.mapper.ClientInfoMapper;
 import com.pdp.persistence.strategy.ClientInfoStrategy;

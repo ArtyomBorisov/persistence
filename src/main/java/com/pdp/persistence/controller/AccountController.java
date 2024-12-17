@@ -2,7 +2,6 @@ package com.pdp.persistence.controller;
 
 import com.pdp.persistence.common.Framework;
 import com.pdp.persistence.dto.AccountDto;
-import com.pdp.persistence.dto.BalanceDto;
 import com.pdp.persistence.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,19 +24,20 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public AccountDto getAccountById(@PathVariable(name = "id") UUID id, @RequestParam Framework framework) {
+    public AccountDto getAccountById(@PathVariable(name = "id") UUID id,
+                                     @RequestParam(name = "framework") Framework framework) {
         log.info("Получение счета по id {}", id);
         return accountService.findById(id, framework);
     }
 
     @GetMapping
-    public List<AccountDto> getAllAccounts(@RequestParam Framework framework) {
+    public List<AccountDto> getAllAccounts(@RequestParam(name = "framework") Framework framework) {
         log.info("Получение всех счетов");
         return accountService.findAll(framework);
     }
 
     @GetMapping("/effectively")
-    public List<AccountDto> getAllAccountsEffectively(@RequestParam Framework framework) {
+    public List<AccountDto> getAllAccountsEffectively(@RequestParam(name = "framework") Framework framework) {
         log.info("Получение всех счетов оптимально");
         return accountService.findAllEffectively(framework);
     }

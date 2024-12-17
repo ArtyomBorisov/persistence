@@ -25,20 +25,22 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ClientDto getClientById(@PathVariable(name = "id") UUID id, @RequestParam Framework framework) {
+    public ClientDto getClientById(@PathVariable(name = "id") UUID id,
+                                   @RequestParam(name = "framework") Framework framework) {
         log.info("Получение клиента по id {}", id);
         return clientService.findId(id, framework);
     }
 
     @GetMapping
-    public List<ClientDto> getAllClients(@RequestParam Framework framework) {
+    public List<ClientDto> getAllClients(@RequestParam(name = "framework") Framework framework) {
         log.info("Получение всех клиентов");
         return clientService.findAll(framework);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void save(@RequestBody ClientDto clientDto, @RequestParam Framework framework) {
+    public void save(@RequestBody ClientDto clientDto,
+                     @RequestParam(name = "framework") Framework framework) {
         log.info("Сохранение клиента с id {}", clientDto.id());
         clientService.save(clientDto, framework);
     }

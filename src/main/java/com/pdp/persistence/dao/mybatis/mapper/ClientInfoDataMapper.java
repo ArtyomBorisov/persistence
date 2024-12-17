@@ -72,5 +72,5 @@ public interface ClientInfoDataMapper {
             INSERT INTO CLIENT_INFO (ID, NAME, SURNAME)
             VALUES (#{clientInfoModel.id}, #{clientInfoModel.name}, #{clientInfoModel.surname});
             """)
-    void save(ClientInfoModel clientInfoModel);
+    void save(@Param("clientInfoModel") ClientInfoModel clientInfoModel);
 }

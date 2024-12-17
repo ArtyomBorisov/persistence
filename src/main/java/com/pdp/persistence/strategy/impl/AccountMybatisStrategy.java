@@ -5,6 +5,7 @@ import com.pdp.persistence.dao.mybatis.mapper.AccountDataMapper;
 import com.pdp.persistence.dto.AccountDto;
 import com.pdp.persistence.exception.MessageConstant;
 import com.pdp.persistence.exception.NotFound;
+import com.pdp.persistence.dao.mybatis.mapper.AccountEffectiveDataMapper;
 import com.pdp.persistence.mapper.AccountMapper;
 import com.pdp.persistence.strategy.AccountStrategy;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class AccountMybatisStrategy implements AccountStrategy {
 
     private final AccountDataMapper accountDataMapper;
     private final AccountMapper accountMapper;
+    private final AccountEffectiveDataMapper accountEffectiveDataMapper;
 
     @Transactional(readOnly = true)
     @Override
@@ -40,7 +42,7 @@ public class AccountMybatisStrategy implements AccountStrategy {
     @Transactional(readOnly = true)
     @Override
     public List<AccountDto> findAllEffectively() {
-        return accountMapper.mapAccountModelsToDtos(accountDataMapper.findAllEffectively());
+        return accountMapper.mapAccountModelsToDtos(accountEffectiveDataMapper.findAll());
     }
 
     @Override

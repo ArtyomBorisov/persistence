@@ -41,7 +41,8 @@ public interface ClientDataMapper {
             INSERT INTO CLIENT (ID, CLIENT_INFO_ID, IDENTIFICATION_NUMBER)
             VALUES (#{clientModel.id}, #{clientInfoId}, #{clientModel.identificationNumber});
             """)
-    void save(ClientModel clientModel, UUID clientInfoId);
+    void save(@Param("clientModel") ClientModel clientModel,
+              @Param("clientInfoId") UUID clientInfoId);
 
     @Delete("""
             DELETE FROM CLIENT
