@@ -1,6 +1,8 @@
 package com.pdp.persistence.strategy.impl;
 
 import com.pdp.persistence.common.Framework;
+import com.pdp.persistence.dao.hibernate.entity.ClientEntity;
+import com.pdp.persistence.dao.hibernate.repository.ClientInfoRepository;
 import com.pdp.persistence.dao.hibernate.repository.ClientRepository;
 import com.pdp.persistence.dto.ClientDto;
 import com.pdp.persistence.exception.MessageConstant;
@@ -20,6 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClientHibernateStrategy implements ClientStrategy {
 
+    private final ClientInfoHibernateStrategy clientInfoHibernateStrategy;
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
 
@@ -37,11 +40,12 @@ public class ClientHibernateStrategy implements ClientStrategy {
         return clientMapper.mapClientEntitiesToDtos(clientRepository.findAll());
     }
 
-    // todo save client info
     @Transactional
     @Override
     public void save(ClientDto clientDto) {
-        clientRepository.save(clientMapper.mapClientDtoToEntity(clientDto));
+        clientInfoHibernateStrategy.save(clientDto.clientInfo());
+        final var clientEntity = clientMapper.mapClientDtoToEntity(clientDto);
+        clientRepository.save(clientEntity);
     }
 
     @Transactional
@@ -57,7 +61,6 @@ public class ClientHibernateStrategy implements ClientStrategy {
         final var clientEntity = clientRepository.findById(id)
                 .orElseThrow(() -> buildException(String.format(MessageConstant.CLIENT_NOT_FOUND, id)));
         clientEntity.setIdentificationNumber(clientDto.identificationNumber());
-        // clientEntity.setClientInfo();
         final var updatedClientEntity = clientRepository.save(clientEntity);
         return clientMapper.mapClientEntityToDto(updatedClientEntity);
     }

@@ -22,8 +22,8 @@ import java.util.UUID;
 public class AccountMybatisStrategy implements AccountStrategy {
 
     private final AccountDataMapper accountDataMapper;
-    private final AccountMapper accountMapper;
     private final AccountEffectiveDataMapper accountEffectiveDataMapper;
+    private final AccountMapper accountMapper;
 
     @Transactional(readOnly = true)
     @Override

@@ -52,9 +52,9 @@ public interface ClientDataMapper {
 
     @Select("""
             UPDATE CLIENT
-            SET CLIENT_INFO_ID, IDENTIFICATION_NUMBER
+            SET IDENTIFICATION_NUMBER = ${ci.identificationNumber}
+            WHERE ID = #{ci.id}
             RETURNING ID, CLIENT_INFO_ID, IDENTIFICATION_NUMBER;
             """)
-    @Options(flushCache = Options.FlushCachePolicy.TRUE)
-    ClientModel update(ClientModel clientModel);
+    ClientModel update(@Param("cm") ClientModel clientModel);
 }

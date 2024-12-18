@@ -1,6 +1,7 @@
 package com.pdp.persistence.strategy.impl;
 
 import com.pdp.persistence.common.Framework;
+import com.pdp.persistence.dao.hibernate.repository.AccountEffectiveRepository;
 import com.pdp.persistence.dao.hibernate.repository.AccountRepository;
 import com.pdp.persistence.dto.AccountDto;
 import com.pdp.persistence.exception.MessageConstant;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class AccountHibernateStrategy implements AccountStrategy {
 
     private final AccountRepository accountRepository;
+    private final AccountEffectiveRepository accountEffectiveRepository;
     private final AccountMapper accountMapper;
 
     @Transactional(readOnly = true)
@@ -40,7 +42,7 @@ public class AccountHibernateStrategy implements AccountStrategy {
     @Transactional(readOnly = true)
     @Override
     public List<AccountDto> findAllEffectively() {
-        return accountMapper.mapAccountEntitiesToDtos(accountRepository.findAll());
+        return accountMapper.mapAccountEntitiesToDtos(accountEffectiveRepository.findAll());
     }
 
     @Override

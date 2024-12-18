@@ -18,11 +18,6 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @GetMapping("/test")
-    public String testGet() {
-        return "success";
-    }
-
     @GetMapping("/{id}")
     public AccountDto getAccountById(@PathVariable(name = "id") UUID id,
                                      @RequestParam(name = "framework") Framework framework) {

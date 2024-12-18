@@ -19,11 +19,6 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    @GetMapping("/test")
-    public String testGet() {
-        return "success";
-    }
-
     @GetMapping("/{id}")
     public ClientDto getClientById(@PathVariable(name = "id") UUID id,
                                    @RequestParam(name = "framework") Framework framework) {
@@ -39,9 +34,24 @@ public class ClientController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void save(@RequestBody ClientDto clientDto,
-                     @RequestParam(name = "framework") Framework framework) {
+    public void saveClient(@RequestBody ClientDto clientDto,
+                           @RequestParam(name = "framework") Framework framework) {
         log.info("Сохранение клиента с id {}", clientDto.id());
         clientService.save(clientDto, framework);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void deleteClientById(@PathVariable(name = "id") UUID id,
+                                 @RequestParam(name = "framework") Framework framework) {
+        log.info("Удаление клиента по id {}", id);
+        clientService.deleteById(id, framework);
+    }
+
+    @PatchMapping
+    public void updateClient(@RequestBody ClientDto clientDto,
+                             @RequestParam(name = "framework") Framework framework) {
+        log.info("Обновление клиента: {}", clientDto);
+        clientService.update(clientDto, framework);
     }
 }
