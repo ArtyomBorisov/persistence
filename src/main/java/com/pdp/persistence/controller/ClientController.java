@@ -28,7 +28,7 @@ public class ClientController {
     public ClientDto getClientById(@PathVariable(name = "id") UUID id,
                                    @RequestParam(name = "framework") Framework framework) {
         log.info("Получение клиента по id {}", id);
-        return clientService.findId(id, framework);
+        return clientService.findById(id, framework);
     }
 
     @GetMapping

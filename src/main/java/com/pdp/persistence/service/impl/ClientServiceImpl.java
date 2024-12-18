@@ -21,7 +21,7 @@ public class ClientServiceImpl implements ClientService {
     private final Map<Framework, ClientStrategy> clientStrategies;
 
     @Override
-    public ClientDto findId(UUID id, Framework framework) {
+    public ClientDto findById(UUID id, Framework framework) {
         final var clientStrategy = getClientStrategy(framework);
         return clientStrategy.findById(id);
     }

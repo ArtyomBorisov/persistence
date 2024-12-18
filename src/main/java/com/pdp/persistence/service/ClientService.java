@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface ClientService {
 
-    ClientDto findId(UUID id, Framework framework);
+    ClientDto findById(UUID id, Framework framework);
 
     List<ClientDto> findAll(Framework framework);
 
