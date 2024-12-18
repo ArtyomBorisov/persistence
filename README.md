@@ -1,5 +1,9 @@
 # persistence
 
+## database schema
+
+# ![persistence](database-schema.png)
+
 ## kubernetes
 1. Pod состоит из контейнера(ов)
 2. Deployment состоит из одинаковых под(ов), нужен для Auto Scaling и для обновления image, держит минимальное
@@ -42,3 +46,4 @@ helm install <helmChartName> <folder> -set applicationReplicaCount=4
 helm install --dry-run --debug <name> <chart-folder>
 helm list
 helm status <name>
+
