@@ -4,6 +4,7 @@ import com.pdp.persistence.common.Framework;
 import com.pdp.persistence.common.Sorting;
 import com.pdp.persistence.dto.ClientInfoDto;
 import com.pdp.persistence.service.ClientInfoService;
+import com.pdp.persistence.validator.ClientInfoParamValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/v1/client-infos")
@@ -23,6 +22,7 @@ import java.util.stream.Stream;
 public class ClientInfoController {
 
     private final ClientInfoService clientInfoService;
+    private final ClientInfoParamValidator clientInfoParamValidator;
 
     @GetMapping
     public List<ClientInfoDto> getClientInfos(@RequestParam(value = "id", required = false) List<UUID> ids,
@@ -30,12 +30,7 @@ public class ClientInfoController {
                                               @RequestParam(value = "name", required = false) String name,
                                               @RequestParam(name = "framework") Framework framework) {
         log.info("Получение информации о клиентах по параметрам: id {}, sortingByName {}, name {}", ids, sortingByName, name);
-        final var params = Stream.of(ids, sortingByName, name)
-                .filter(Objects::nonNull)
-                .count();
-        if (params != 1) {
-            throw new RuntimeException("Должен быть передан строго один из параметров: ids, sortingByName, name");
-        }
+        clientInfoParamValidator.validateRequestParams(ids, sortingByName, name);
         if (ids != null) {
             return clientInfoService.findByIds(ids, framework);
         } else if (sortingByName != null) {

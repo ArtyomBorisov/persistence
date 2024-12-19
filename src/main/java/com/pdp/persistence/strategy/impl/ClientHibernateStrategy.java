@@ -1,8 +1,6 @@
 package com.pdp.persistence.strategy.impl;
 
 import com.pdp.persistence.common.Framework;
-import com.pdp.persistence.dao.hibernate.entity.ClientEntity;
-import com.pdp.persistence.dao.hibernate.repository.ClientInfoRepository;
 import com.pdp.persistence.dao.hibernate.repository.ClientRepository;
 import com.pdp.persistence.dto.ClientDto;
 import com.pdp.persistence.exception.MessageConstant;
@@ -56,8 +54,7 @@ public class ClientHibernateStrategy implements ClientStrategy {
 
     @Transactional
     @Override
-    public ClientDto update(ClientDto clientDto) {
-        final var id = clientDto.id();
+    public ClientDto update(UUID id, ClientDto clientDto) {
         final var clientEntity = clientRepository.findById(id)
                 .orElseThrow(() -> buildException(String.format(MessageConstant.CLIENT_NOT_FOUND, id)));
         clientEntity.setIdentificationNumber(clientDto.identificationNumber());

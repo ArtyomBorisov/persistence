@@ -45,9 +45,9 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDto update(ClientDto clientDto, Framework framework) {
+    public ClientDto update(UUID id, ClientDto clientDto, Framework framework) {
         final var clientStrategy = getClientStrategy(framework);
-        return clientStrategy.update(clientDto);
+        return clientStrategy.update(id, clientDto);
     }
 
     private ClientStrategy getClientStrategy(Framework framework) {

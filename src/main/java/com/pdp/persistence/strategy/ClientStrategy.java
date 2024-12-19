@@ -16,7 +16,7 @@ public interface ClientStrategy {
 
     void deleteById(UUID id);
 
-    ClientDto update(ClientDto clientDto);
+    ClientDto update(UUID id, ClientDto clientDto);
 
     Framework getFramework();
 }

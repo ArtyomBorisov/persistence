@@ -1,6 +1,7 @@
 package com.pdp.persistence.controller.advice;
 
 import com.pdp.persistence.common.ResponseException;
+import com.pdp.persistence.exception.BadRequest;
 import com.pdp.persistence.exception.NotFound;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,12 @@ public class ControllerAdvice {
     public ResponseException missedRequestParamHandler(MissingServletRequestParameterException e) {
         final var message = String.format("Пропущен request param %s", e.getParameterName());
         return buildResponseException(HttpStatus.BAD_REQUEST, message);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadRequest.class)
+    public ResponseException badRequestHandler(BadRequest e) {
+        return buildResponseException(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

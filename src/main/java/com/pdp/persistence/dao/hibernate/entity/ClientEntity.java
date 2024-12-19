@@ -10,6 +10,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "client")
 @Getter
+@Setter
 public class ClientEntity {
 
     @Id
@@ -17,7 +18,7 @@ public class ClientEntity {
     private UUID id;
 
     @Setter
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_info_id")
     private ClientInfoEntity clientInfo;
 

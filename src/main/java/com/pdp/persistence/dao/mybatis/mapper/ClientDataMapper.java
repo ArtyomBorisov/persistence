@@ -52,9 +52,10 @@ public interface ClientDataMapper {
 
     @Select("""
             UPDATE CLIENT
-            SET IDENTIFICATION_NUMBER = ${ci.identificationNumber}
-            WHERE ID = #{ci.id}
+            SET IDENTIFICATION_NUMBER = ${cm.identificationNumber}
+            WHERE ID = #{id}
             RETURNING ID, CLIENT_INFO_ID, IDENTIFICATION_NUMBER;
             """)
-    ClientModel update(@Param("cm") ClientModel clientModel);
+    ClientModel update(@Param("id") UUID id,
+                       @Param("cm") ClientModel clientModel);
 }

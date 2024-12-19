@@ -40,18 +40,22 @@ public interface ClientInfoDataMapper {
             </if>
             </script>
             """)
-    List<ClientInfoModel> findByIds(List<UUID> ids);
+    List<ClientInfoModel> findByIds(@Param("ids") List<UUID> ids);
 
     @Select("""
+            <script>
+            <bind name="pattern" value="'%' + _name + '%'" />
             SELECT ID,
                    NAME,
                    SURNAME
             FROM CLIENT_INFO
-            WHERE NAME ILIKE #{name};
+            WHERE NAME ILIKE '${pattern}';
+            </script>
             """)
     List<ClientInfoModel> findWithNameLike(String name);
 
     @Select("""
+            <script>
             SELECT ID,
                    NAME,
                    SURNAME
@@ -59,12 +63,13 @@ public interface ClientInfoDataMapper {
             ORDER BY NAME
             <choose>
               <when test="sorting != null">
-                #{sorting}
+                ${sorting};
               </when>
               <otherwise>
-                ASC
+                ASC;
               </otherwise>
             </choose>
+            </script>
             """)
     List<ClientInfoModel> findSortingByName(Sorting sorting);
 

@@ -2,7 +2,6 @@ package com.pdp.persistence.strategy.impl;
 
 import com.pdp.persistence.common.Framework;
 import com.pdp.persistence.dao.mybatis.mapper.ClientDataMapper;
-import com.pdp.persistence.dao.mybatis.model.ClientModel;
 import com.pdp.persistence.dto.ClientDto;
 import com.pdp.persistence.exception.MessageConstant;
 import com.pdp.persistence.exception.NotFound;
@@ -55,9 +54,9 @@ public class ClientMybatisStrategy implements ClientStrategy {
 
     @Transactional
     @Override
-    public ClientDto update(ClientDto clientDto) {
+    public ClientDto update(UUID id, ClientDto clientDto) {
         final var clientModel = clientMapper.mapClientDtoToModel(clientDto);
-        final var updatedClientModel = clientDataMapper.update(clientModel);
+        final var updatedClientModel = clientDataMapper.update(id, clientModel);
         return clientMapper.mapClientModelToDto(updatedClientModel);
     }
 

@@ -29,7 +29,7 @@ public interface AccountEffectiveDataMapper {
                 LEFT JOIN CLIENT c ON c.ID = a.CLIENT_ID
                 LEFT JOIN CLIENT_INFO ci ON ci.ID = c.CLIENT_INFO_ID
                 LEFT JOIN ACCOUNT_SUBSCRIPTION_LINK asl ON asl.ACCOUNT_ID = a.ID
-                INNER JOIN SUBSCRIPTION s ON s.ID = asl.SUBSCRIPTION_ID;
+                LEFT JOIN SUBSCRIPTION s ON s.ID = asl.SUBSCRIPTION_ID;
             """)
     @ResultMap("accountResultMap")
     List<AccountModel> findAll();

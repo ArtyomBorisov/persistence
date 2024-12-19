@@ -16,5 +16,5 @@ public interface ClientService {
 
     void deleteById(UUID id, Framework framework);
 
-    ClientDto update(ClientDto clientDto, Framework framework);
+    ClientDto update(UUID id, ClientDto clientDto, Framework framework);
 }

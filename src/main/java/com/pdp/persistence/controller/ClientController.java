@@ -48,10 +48,11 @@ public class ClientController {
         clientService.deleteById(id, framework);
     }
 
-    @PatchMapping
-    public void updateClient(@RequestBody ClientDto clientDto,
+    @PatchMapping("/{id}")
+    public void updateClient(@PathVariable(name = "id") UUID id,
+                             @RequestBody ClientDto clientDto,
                              @RequestParam(name = "framework") Framework framework) {
         log.info("Обновление клиента: {}", clientDto);
-        clientService.update(clientDto, framework);
+        clientService.update(id, clientDto, framework);
     }
 }
