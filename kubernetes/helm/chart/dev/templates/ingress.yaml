@@ -3,25 +3,26 @@ kind: Ingress
 metadata:
   name: {{ .Release.Name }}-ingress
   annotations:
-    spec.ingressClassName: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 
 spec:
+  ingressClassName: nginx
   rules:
     - host: www.persistence.local
       http:
         paths:
-          - pathType: Prefix
-            path: /
+          - pathType: ImplementationSpecific
+            path: /app(/|$)(.*)
             backend:
               service:
                 name: persistence-service-{{ .Release.Name }}
                 port:
                   number: {{ .Values.port.persistence }}
-#          - pathType: Prefix
-#            path: /login
-#            backend:
-#              service:
-#                name: pgadmin-service-{{ .Release.Name }}
-#                port:
-#                  number: {{ .Values.port.pgadmin }}
+          - pathType: ImplementationSpecific
+            path: /pgadmin(/|$)(.*)
+            backend:
+              service:
+                name: pgadmin-service-{{ .Release.Name }}
+                port:
+                  number: {{ .Values.port.pgadmin }}
